@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Atom {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  atomicNumber Int           @unique
+  symbol       String        @unique
+  name         AtomName
+  discovery    AtomDiscovery
+  family       AtomFamily
+  group        Int
+  period       Int
+  block        AtomBlock
+  phaseAtSTP   Phase
+}
+
+enum Phase {
+  gas
+  solid
+  liquid
+  plasma
+}
+
+type AtomName {
+  en String
+  fr String
+}
+
+type AtomDiscovery {
+  year Int
+  by   String
+}
+
+type AtomFamily {
+  isMetal Boolean
+  name    String
+}
+
+type AtomBlock {
+  shorten String
+  full    String
+}
