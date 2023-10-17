@@ -1,0 +1,43 @@
+### Root
+
+GET http://localhost:3000/atoms/
+
+###
+
+### By atomic number
+GET http://localhost:3000/atoms/byAtomicNumber/1
+
+### By internal ID
+GET http://localhost:3000/atoms/byId/i_need_an_id
+
+###
+
+### By discovery year - before
+GET http://localhost:3000/atoms/byDiscoveryYear/before/1950
+
+### By discovery year - after
+GET http://localhost:3000/atoms/byDiscoveryYear/after/1950
+
+###
+
+### By phase - gas
+GET http://localhost:3000/atoms/byPhaseAtSTP/gas
+### By phase - liquid
+GET http://localhost:3000/atoms/byPhaseAtSTP/liquid
+### By phase - solid
+GET http://localhost:3000/atoms/byPhaseAtSTP/solid
+
+###
+
+### By metals
+GET http://localhost:3000/atoms/metals
+
+###
+
+### By block
+GET http://localhost:3000/atoms/byBlock/:block
+
+### 
+
+### By period
+GET http://localhost:3000/atoms/byPeriod/:period
