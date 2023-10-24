@@ -5,7 +5,7 @@ GET http://localhost:3000/atoms/
 ###
 
 ### By atomic number
-GET http://localhost:3000/atoms/byAtomicNumber/1
+GET http://localhost:3000/atoms/byAtomicNumber/2
 
 ### By internal ID
 GET http://localhost:3000/atoms/byId/i_need_an_id
@@ -13,7 +13,7 @@ GET http://localhost:3000/atoms/byId/i_need_an_id
 ###
 
 ### By discovery year - before
-GET http://localhost:3000/atoms/byDiscoveryYear/before/1950
+GET http://localhost:3000/atoms/byDiscoveryYear/before/1800
 
 ### By discovery year - after
 GET http://localhost:3000/atoms/byDiscoveryYear/after/1950

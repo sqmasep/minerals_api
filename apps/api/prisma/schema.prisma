@@ -11,9 +11,12 @@ datasource db {
 }
 
 model Atom {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  atomicNumber Int           @unique
-  symbol       String        @unique
+  id           String                     @id @default(auto()) @map("_id") @db.ObjectId
+  atomicNumber Int                        @unique
+  atomicMass   String
+  meltingPoint AtomMeltingOrBoilingPoint?
+  boilingPoint AtomMeltingOrBoilingPoint?
+  symbol       String                     @unique
   name         AtomName
   discovery    AtomDiscovery
   family       AtomFamily
@@ -30,14 +33,21 @@ enum Phase {
   plasma
 }
 
+type AtomMeltingOrBoilingPoint {
+  kelvin     String
+  celsius    String
+  fahrenheit String
+}
+
 type AtomName {
   en String
   fr String
 }
 
 type AtomDiscovery {
-  year Int
-  by   String
+  by      String[]
+  country String[]
+  year    Int
 }
 
 type AtomFamily {

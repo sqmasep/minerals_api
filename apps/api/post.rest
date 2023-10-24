@@ -1,0 +1,27 @@
+POST http://localhost:3000/atoms/create HTTP/1.1
+content-type: application/json
+
+{
+  "atomicNumber": 2,
+  "symbol": "He",
+  "name": {
+    "en": "Helium",
+    "fr": "Hélium"
+  },
+  "phaseAtSTP": "gas",
+  "block": {
+    "full": "s-block",
+    "shorten": "s"
+  },
+  "discovery": {
+    "by": "Pierre Janssen, Norman Lockyer",
+    "country": "France, United Kingdom",
+    "year": 1868
+  },
+  "family": {
+    "isMetal": false,
+    "name": "Noble gas"
+  },
+  "group": 18,
+  "period": 1
+}

@@ -3,6 +3,7 @@ import env from "../env";
 import atomsRouter from "./routers/atoms";
 
 const app = express();
+app.use(express.json());
 
 app.use("/atoms", atomsRouter);
 
