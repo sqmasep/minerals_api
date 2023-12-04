@@ -1,6 +1,7 @@
 import express from "express";
 import db from "../lib/db";
 import { z } from "zod";
+import env from "../../env";
 
 const atomsRouter = express.Router();
 const schema = z.object({
@@ -182,6 +183,20 @@ atomsRouter.get("/metals", async (req, res) => {
 });
 
 atomsRouter.get("/byBlock/:block", async (req, res) => {});
-atomsRouter.get("/byBlock/:block", async (req, res) => {});
+
+atomsRouter.get("/random", async (req, res) => {
+  // TODO [FEATURE] if the user wants the extended table or not
+
+  try {
+    const data = await db.atom.findFirst({
+      skip: Math.floor(Math.random() * env.ATOMS_COUNT),
+    });
+    console.log(data);
+
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(500).send({ message: error });
+  }
+});
 
 export default atomsRouter;
