@@ -2,26 +2,23 @@ POST http://localhost:3000/atoms/create HTTP/1.1
 content-type: application/json
 
 {
-  "atomicNumber": 2,
-  "symbol": "He",
+  "atomicNumber": 3,
+  "symbol": "Li",
   "name": {
-    "en": "Helium",
-    "fr": "Hélium"
+    "en": "Lithium",
+    "fr": "Lithium"
   },
-  "phaseAtSTP": "gas",
-  "block": {
-    "full": "s-block",
-    "shorten": "s"
-  },
+  "phaseAtSTP": "solid",
+  "block": "s",
   "discovery": {
-    "by": "Pierre Janssen, Norman Lockyer",
-    "country": "France, United Kingdom",
-    "year": 1868
+    "by": "Johan August Arfwedson",
+    "country": "Sweden",
+    "year": 1817
   },
   "family": {
-    "isMetal": false,
-    "name": "Noble gas"
+    "isMetal": true,
+    "name": "Alkali metal"
   },
-  "group": 18,
-  "period": 1
+  "group": 1,
+  "period": 2
 }

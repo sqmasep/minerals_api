@@ -22,7 +22,7 @@ model Atom {
   family       AtomFamily
   group        Int
   period       Int
-  block        AtomBlock
+  block        Block
   phaseAtSTP   Phase
 }
 
@@ -31,6 +31,13 @@ enum Phase {
   solid
   liquid
   plasma
+}
+
+enum Block {
+  s
+  f
+  d
+  p
 }
 
 type AtomMeltingOrBoilingPoint {
@@ -45,17 +52,12 @@ type AtomName {
 }
 
 type AtomDiscovery {
-  by      String[]
-  country String[]
+  by      String
+  country String
   year    Int
 }
 
 type AtomFamily {
   isMetal Boolean
   name    String
-}
-
-type AtomBlock {
-  shorten String
-  full    String
 }
