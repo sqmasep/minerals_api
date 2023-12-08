@@ -2,7 +2,7 @@ import express from "express";
 import db from "../lib/db";
 import { z } from "zod";
 import env from "../../env";
-import { atomSchema } from "~/validation/atoms";
+import { atomSchema } from "../validation/atoms";
 
 const atomsRouter = express.Router();
 
@@ -16,6 +16,7 @@ atomsRouter.post("/create", async (req, res) => {
         name: safeValues.name,
         phaseAtSTP: safeValues.phaseAtSTP,
         block: safeValues.block,
+        atomicMass: safeValues.atomicMass,
 
         discovery: {
           set: {
@@ -43,7 +44,7 @@ atomsRouter.post("/create", async (req, res) => {
 });
 
 atomsRouter.get("/", async (req, res) => {
-  const data = await db.atom.findMany();
+  const data = await db.atom.findMany({ take: 118 });
   return res.status(200).send(data);
 });
 
