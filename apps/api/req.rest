@@ -5,10 +5,10 @@ GET http://localhost:4222/atoms/
 ###
 
 ### By atomic number
-GET http://localhost:4222/atoms/byAtomicNumber/2
+GET http://localhost:4222/atoms/byAtomicNumber/5
 
 ### By internal ID
-GET http://localhost:4222/atoms/byId/i_need_an_id
+GET http://localhost:4222/atoms/byId/65732ca900610b6289d60fc8
 
 ###
 

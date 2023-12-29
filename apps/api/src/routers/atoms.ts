@@ -1,14 +1,14 @@
-import express from "express";
 import db from "../lib/db";
 import { z } from "zod";
 import env from "../../env";
 import { atomSchema } from "../validation/atoms";
+import { Hono } from "hono";
 
-const atomsRouter = express.Router();
+const atomsRouter = new Hono();
 
-atomsRouter.post("/create", async (req, res) => {
+atomsRouter.post("/create", async c => {
   try {
-    const safeValues = atomSchema.parse(req.body);
+    const safeValues = atomSchema.parse(c.body({}));
     const data = await db.atom.create({
       data: {
         atomicNumber: safeValues.atomicNumber,
@@ -36,40 +36,40 @@ atomsRouter.post("/create", async (req, res) => {
       },
     });
 
-    return res.status(200).send(data);
+    return c.json(data, 201);
   } catch (error) {
     console.error(error);
-    return res.status(500).send({ message: error });
+    return c.json({ message: error }, 500);
   }
 });
 
-atomsRouter.get("/", async (req, res) => {
+atomsRouter.get("/", async c => {
   const data = await db.atom.findMany({ take: 118 });
-  return res.status(200).send(data);
+  return c.json(data, 200);
 });
 
-atomsRouter.get("/byAtomicNumber/:atomicNumber", async (req, res) => {
+atomsRouter.get("/byAtomicNumber/:atomicNumber", async c => {
   try {
     const sanitizedAtomicNumber = z.coerce
       .number()
       .positive()
       .min(1)
-      .parse(req.params.atomicNumber);
+      .parse(c.req.param("atomicNumber"));
 
     const data = await db.atom.findUniqueOrThrow({
       where: { atomicNumber: sanitizedAtomicNumber },
     });
 
-    return res.status(200).send(data);
+    return c.json(data, 200);
   } catch (error) {
-    return res.status(500).send({ message: error });
+    return c.json({ message: error }, 500);
   }
 });
 
-atomsRouter.get("/byId/:id", async (req, res) => {
+atomsRouter.get("/byId/:id", async c => {
   try {
     // WARN [VALIDATION] this may require more precision, like cuid or uuid or the correct id type
-    const sanitizedId = z.string().parse(req.params.id);
+    const sanitizedId = z.string().parse(c.req.param("id"));
 
     const data = await db.atom.findUniqueOrThrow({
       where: {
@@ -77,49 +77,53 @@ atomsRouter.get("/byId/:id", async (req, res) => {
       },
     });
 
-    return res.status(200).send(data);
+    return c.json(data, 200);
   } catch (error) {
-    return res.status(500).send({ message: error });
+    return c.json({ message: error }, 500);
   }
 });
 
-atomsRouter.get("/byDiscoveryYear/before/:date", async (req, res) => {
+atomsRouter.get("/byDiscoveryYear/before/:date", async c => {
   try {
     const sanitizedDate = z
       .number()
       .int()
       .positive()
-      .parse(Number(req.params.date));
+      .parse(Number(c.req.param("date")));
 
     const data = await db.atom.findMany({
       where: { discovery: { is: { year: { lt: sanitizedDate } } } },
     });
 
-    return res.status(200).send(data);
-  } catch (error) {}
+    return c.json(data, 200);
+  } catch (error) {
+    return c.json({ message: error }, 500);
+  }
 });
 
-atomsRouter.get("/byDiscoveryYear/after/:date", async (req, res) => {
+atomsRouter.get("/byDiscoveryYear/after/:date", async c => {
   try {
     const sanitizedDate = z
       .number()
       .int()
       .positive()
-      .parse(Number(req.params.date));
+      .parse(Number(c.req.param("date")));
 
     const data = await db.atom.findMany({
       where: { discovery: { is: { year: { gt: sanitizedDate } } } },
     });
 
-    return res.status(200).send(data);
-  } catch (error) {}
+    return c.json(data, 200);
+  } catch (error) {
+    return c.json({ message: error }, 500);
+  }
 });
 
-atomsRouter.get("/byPhaseAtSTP/:phase", async (req, res) => {
+atomsRouter.get("/byPhaseAtSTP/:phase", async c => {
   try {
     const sanitizedPhase = z
       .enum(["gas", "liquid", "solid", "plasma"])
-      .parse(req.params.phase);
+      .parse(c.req.param("phase"));
 
     const data = await db.atom.findMany({
       where: {
@@ -127,11 +131,13 @@ atomsRouter.get("/byPhaseAtSTP/:phase", async (req, res) => {
       },
     });
 
-    return res.status(200).send(data);
-  } catch (error) {}
+    return c.json(data, 200);
+  } catch (error) {
+    return c.json({ message: error }, 500);
+  }
 });
 
-atomsRouter.get("/metals", async (req, res) => {
+atomsRouter.get("/metals", async c => {
   try {
     const data = await db.atom.findMany({
       where: {
@@ -143,14 +149,16 @@ atomsRouter.get("/metals", async (req, res) => {
       },
     });
 
-    return res.status(200).send(data);
-  } catch (error) {}
+    return c.json(data, 200);
+  } catch (error) {
+    return c.json({ message: error }, 500);
+  }
 });
 
 // TODO
-atomsRouter.get("/byBlock/:block", async (req, res) => {});
+atomsRouter.get("byBlock/:block", async c => {});
 
-atomsRouter.get("/random", async (req, res) => {
+atomsRouter.get("/random", async c => {
   // TODO [FEATURE] if the user wants the extended table or not
 
   try {
@@ -159,9 +167,9 @@ atomsRouter.get("/random", async (req, res) => {
     });
     console.log(data);
 
-    return res.status(200).send(data);
+    return c.json(data, 200);
   } catch (error) {
-    return res.status(500).send({ message: error });
+    return c.json({ message: error }, 500);
   }
 });
 
