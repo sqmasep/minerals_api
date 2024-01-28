@@ -165,7 +165,6 @@ atomsRouter.get("/random", async c => {
     const data = await db.atom.findFirst({
       skip: Math.floor(Math.random() * env.ATOMS_COUNT),
     });
-    console.log(data);
 
     return c.json(data, 200);
   } catch (error) {
